@@ -1,0 +1,11 @@
+schema:
+  - "${SHOPIFY_ENDPOINT}":
+      headers:
+        "X-Shopify-Storefront-Access-Token": ${SHOPIFY_STOREFRONT_API_KEY}
+documents: app/graphql/shopify/query.gql
+generates:
+  app/graphql/shopify/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request

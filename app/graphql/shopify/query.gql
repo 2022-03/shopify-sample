@@ -1,0 +1,98 @@
+query Products($first: Int) {
+  products(first: $first) {
+    nodes {
+      title
+      handle
+      priceRange {
+        maxVariantPrice {
+          amount
+        }
+      }
+      images(first: $first) {
+        nodes {
+          url
+        }
+      }
+    }
+  }
+}
+
+query Product($handle: String!, $first: Int!) {
+  product(handle: $handle) {
+    title
+    handle
+    media(first: $first) {
+      nodes {
+        previewImage {
+          url(transform: { maxWidth: 400, maxHeight: 400 })
+        }
+      }
+    }
+    description
+    variants(first: $first) {
+      nodes {
+        id
+        priceV2 {
+          amount
+        }
+      }
+    }
+    options {
+      name
+      values
+    }
+  }
+}
+
+query Cart($id: ID!, $first: Int) {
+  cart(id: $id) {
+    estimatedCost {
+      totalAmount {
+        amount
+      }
+    }
+    lines(first: $first) {
+      nodes {
+        quantity
+        merchandise {
+          ... on ProductVariant {
+            product {
+              title
+              featuredImage {
+                url
+              }
+              variants(first: $first) {
+                edges {
+                  node {
+                    priceV2 {
+                      amount
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation CartCreate($input: CartInput) {
+  cartCreate(input: $input) {
+    cart {
+      id
+    }
+  }
+}
+
+mutation CartLinesAdd(
+  $lines: [CartLineInput!]!
+  $cartId: ID!
+) {
+  cartLinesAdd(lines: $lines, cartId: $cartId) {
+    cart {
+      id
+    }
+  }
+}

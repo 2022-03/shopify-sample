@@ -1,0 +1,55 @@
+{
+  "name": "remix-template-cloudflare-workers",
+  "private": true,
+  "description": "",
+  "license": "",
+  "sideEffects": false,
+  "main": "build/index.js",
+  "scripts": {
+    "dev": "run-p dev:*",
+    "shopify-gen": "graphql-codegen --require dotenv/config --config app/graphql/shopify/codegen.yml",
+    "dev:remix": "cross-env NODE_ENV=development remix watch",
+    "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch",
+    "dev:css": "npm run generate:css -- --watch",
+    "build": "run-s build:*",
+    "build:css": "npm run generate:css -- --minify",
+    "build:remix": "cross-env NODE_ENV=production remix build",
+    "start": "cross-env NODE_ENV=production miniflare ./build/index.js",
+    "deploy": "npm run build && wrangler publish",
+    "generate:css": "tailwindcss -i ./styles/app.css -o ./app/styles/tailwind.css"
+  },
+  "dependencies": {
+    "@remix-run/cloudflare": "^1.4.3",
+    "@remix-run/cloudflare-workers": "^1.4.3",
+    "@remix-run/react": "^1.4.3",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "framer-motion": "^6.3.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.4.0",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-graphql-request": "^4.4.5",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
+    "@remix-run/dev": "^1.4.3",
+    "@remix-run/eslint-config": "^1.4.3",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-tailwindcss": "^3.5.0",
+    "miniflare": "^2.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.8",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.5.5"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

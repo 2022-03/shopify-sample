@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "@remix-run/eslint-config",
+    "@remix-run/eslint-config/node",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "react/jsx-key": "error",
+    "tailwindcss/classnames-order": "off"
+  },
+  "plugins": ["tailwindcss"]
+}
