@@ -29,7 +29,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="text-slate-800">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
