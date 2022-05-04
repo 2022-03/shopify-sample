@@ -774,6 +774,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     gap: 1.75rem;
   }
 
+  .md\:gap-0 {
+    gap: 0px;
+  }
+
   .md\:px-5 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
