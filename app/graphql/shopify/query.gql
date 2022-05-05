@@ -54,6 +54,11 @@ query Cart($id: ID!, $first: Int) {
     lines(first: $first) {
       nodes {
         quantity
+        estimatedCost {
+          totalAmount {
+            amount
+          }
+        }
         merchandise {
           ... on ProductVariant {
             product {

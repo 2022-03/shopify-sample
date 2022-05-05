@@ -33,17 +33,21 @@ export const loader: LoaderFunction = async ({
   );
   const { products } = data;
 
-  if (!cookie.id) {
+  if (!cookie.cartId) {
     return { products };
   }
 
   const { data: quantityData } = await shopifyResolver(
     CartQuantityDocument.loc?.source.body,
-    { id: cookie.id, first: 20 },
+    { id: cookie.cartId, first: 20 },
   );
-  const { cart } = quantityData;
+  const { cart } = quantityData as CartQuantityQuery;
+  const quantity = cart?.lines.nodes.reduce(
+    (sum, i) => sum + i.quantity,
+    0,
+  );
 
-  return { products, cart };
+  return { products, quantity };
 };
 
 // ここまで
@@ -54,12 +58,10 @@ export const loader: LoaderFunction = async ({
 
 const Index: VFC = () => {
   const { products } = useLoaderData() as ProductsQuery;
-  const { cart } = useLoaderData() as CartQuantityQuery;
-
-  console.log(cart);
+  const { quantity } = useLoaderData();
 
   return (
-    <Layout quantity={cart?.lines.nodes[0].quantity}>
+    <Layout quantity={quantity}>
       <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:grid-cols-4 md:gap-7 md:px-5">
         {products.nodes.map((product) => (
           <Link
