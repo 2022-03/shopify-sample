@@ -96,3 +96,13 @@ mutation CartLinesAdd(
     }
   }
 }
+
+query CartQuantity($id: ID!, $first: Int) {
+  cart(id: $id) {
+    lines(first: $first) {
+      nodes {
+        quantity
+      }
+    }
+  }
+}

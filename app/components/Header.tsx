@@ -2,6 +2,7 @@ import { Link } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { VFC } from "react";
 import { memo, useState } from "react";
+import { ImCart } from "react-icons/im";
 
 // ここまで
 //
@@ -41,13 +42,17 @@ const menuItems = [
 //
 // ここから
 
-export const Header: VFC = memo(() => {
+type PROPS = {
+  quantity: number | undefined;
+};
+
+export const Header: VFC<PROPS> = memo(({ quantity }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <header className="fixed mx-auto h-20 w-full bg-white">
-        <div className="relative mx-auto max-w-[1040px] px-[4%] md:px-5">
+      <header className="fixed mx-auto w-full">
+        <div className="relative mx-auto h-20 max-w-[1040px] bg-white px-[4%] md:px-5">
           <div className="absolute right-[4%] z-20 flex h-20 items-center md:right-5">
             <motion.button
               className="relative inline-block h-[30px] w-[30px]"
@@ -70,14 +75,27 @@ export const Header: VFC = memo(() => {
               ></motion.span>
             </motion.button>
           </div>
-          <div className="absolute z-0 flex h-20 items-center">
-            <img src="images/logo.svg" alt="" />
+          <div className="absolute inset-y-0 right-[calc(4%_+_50px)] flex items-center md:right-20">
+            <Link
+              to={`/cart`}
+              className="flex items-center gap-1"
+            >
+              <ImCart className="text-xl" />
+              <p className="text-xl">
+                {!quantity ? 0 : quantity}
+              </p>
+            </Link>
+          </div>
+          <div className="absolute inset-y-0 z-0 flex items-center">
+            <Link to={`/`}>
+              <img src="images/logo.svg" alt="" />
+            </Link>
           </div>
         </div>
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="fixed z-10 h-screen w-screen bg-[rgba(0,0,0,0.8)]"
+              className="fixed top-0 z-10 h-screen w-screen bg-[rgba(0,0,0,0.8)]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

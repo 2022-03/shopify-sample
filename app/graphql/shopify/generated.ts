@@ -6916,6 +6916,14 @@ export type CartLinesAddMutationVariables = Exact<{
 
 export type CartLinesAddMutation = { __typename?: 'Mutation', cartLinesAdd?: { __typename?: 'CartLinesAddPayload', cart?: { __typename?: 'Cart', id: string } | null } | null };
 
+export type CartQuantityQueryVariables = Exact<{
+  id: Scalars['ID'];
+  first?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type CartQuantityQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', lines: { __typename?: 'CartLineConnection', nodes: Array<{ __typename?: 'CartLine', quantity: number }> } } | null };
+
 
 export const ProductsDocument = gql`
     query Products($first: Int) {
@@ -7018,6 +7026,17 @@ export const CartLinesAddDocument = gql`
   }
 }
     `;
+export const CartQuantityDocument = gql`
+    query CartQuantity($id: ID!, $first: Int) {
+  cart(id: $id) {
+    lines(first: $first) {
+      nodes {
+        quantity
+      }
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -7040,6 +7059,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     CartLinesAdd(variables: CartLinesAddMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CartLinesAddMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CartLinesAddMutation>(CartLinesAddDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CartLinesAdd', 'mutation');
+    },
+    CartQuantity(variables: CartQuantityQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CartQuantityQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CartQuantityQuery>(CartQuantityDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CartQuantity', 'query');
     }
   };
 }
