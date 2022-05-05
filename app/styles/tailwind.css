@@ -472,6 +472,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
+@media (min-width: 480px) {
+  .container {
+    max-width: 480px;
+  }
+}
+
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
@@ -545,10 +551,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .right-\[calc\(4\%_\+_50px\)\] {
   right: calc(4% + 50px);
-}
-
-.top-\[26px\] {
-  top: 26px;
 }
 
 .top-0 {
@@ -636,6 +638,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[30px\] {
   width: 30px;
+}
+
+.w-\[200px\] {
+  width: 200px;
 }
 
 .w-screen {
@@ -773,5 +779,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:text-left {
     text-align: left;
+  }
+}
+
+@media (min-width: 480px) {
+  .xs\:w-full {
+    width: 100%;
   }
 }
