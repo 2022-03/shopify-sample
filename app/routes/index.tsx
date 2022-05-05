@@ -1,8 +1,7 @@
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { VFC } from "react";
-import { Footer } from "~/components/Footer";
-import { Header } from "~/components/Header";
+import { Layout } from "~/components/Layout";
 import type {
   CartQuantityQuery,
   ProductsQuery,
@@ -60,10 +59,8 @@ const Index: VFC = () => {
   console.log(cart);
 
   return (
-    <>
-      <Header quantity={cart?.lines.nodes[0].quantity} />
-
-      <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] pt-20 md:grid-cols-4 md:gap-7 md:px-5">
+    <Layout quantity={cart?.lines.nodes[0].quantity}>
+      <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:grid-cols-4 md:gap-7 md:px-5">
         {products.nodes.map((product) => (
           <Link
             to={`product/${product.handle}`}
@@ -93,9 +90,7 @@ const Index: VFC = () => {
           view more
         </Link>
       </div>
-
-      <Footer />
-    </>
+    </Layout>
   );
 };
 export default Index;

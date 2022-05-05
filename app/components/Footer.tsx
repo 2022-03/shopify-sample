@@ -22,7 +22,7 @@ const linkItems = [
 export const Footer: VFC = memo(() => {
   return (
     <>
-      <footer className="mx-auto mb-5 flex max-w-[1040px] flex-col items-center gap-4 px-[4%] md:flex-row md:justify-between md:gap-0 md:px-5">
+      <footer className="mx-auto mb-5 flex w-full max-w-[1040px] flex-col items-center gap-4 px-[4%] md:flex-row md:justify-between md:gap-0 md:px-5">
         <div className="flex gap-5">
           {linkItems.map((item) => (
             <a
@@ -36,7 +36,7 @@ export const Footer: VFC = memo(() => {
         </div>
         <div>
           <img
-            src="images/copyright.svg"
+            src="/images/copyright.svg"
             alt=""
             className="h-3"
           />

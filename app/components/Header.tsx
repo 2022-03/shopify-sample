@@ -89,9 +89,9 @@ export const Header: VFC<PROPS> = memo(({ quantity }) => {
           <div className="absolute inset-y-0 z-0 flex items-center">
             <Link to={`/`}>
               <img
-                src="images/logo.svg"
+                src="/images/logo.svg"
                 alt=""
-                className="xs:w-full w-[200px]"
+                className="w-[200px] xs:w-full"
               />
             </Link>
           </div>
