@@ -63,19 +63,19 @@ const Cart: VFC = () => {
             {cart?.lines.nodes.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-5 items-center gap-10"
+                className="grid auto-cols-max grid-flow-row-dense grid-cols-3 grid-rows-2 items-center gap-x-4 md:grid-cols-5 md:grid-rows-1 md:gap-10"
               >
-                <div>
+                <div className="col-span-1 row-span-2 md:col-span-1 md:row-span-1">
                   <img
                     src={
                       item.merchandise.product.featuredImage
                         ?.url
                     }
                     alt=""
-                    className="w-full"
+                    className=""
                   />
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-2 place-self-start md:col-span-2 md:place-self-center">
                   <p>{item.merchandise.product.title}</p>
                   <p className="text-xs text-slate-400">
                     ¥
@@ -85,12 +85,12 @@ const Cart: VFC = () => {
                     )}
                   </p>
                 </div>
-                <div className="col-end-5 flex items-center gap-5 justify-self-center border">
-                  <button className="py-5 px-3">-</button>
+                <div className="flex items-center gap-5 justify-self-center border md:col-end-5">
+                  <button className="p-3 md:py-5">-</button>
                   <p>{item.quantity}</p>
-                  <button className="py-5 px-3">+</button>
+                  <button className="p-3 md:py-5">+</button>
                 </div>
-                <p className="col-end-6 justify-self-end">
+                <p className="justify-self-end md:col-end-6">
                   ¥
                   {price(
                     item.estimatedCost.totalAmount.amount,
