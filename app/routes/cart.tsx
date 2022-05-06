@@ -63,9 +63,9 @@ const Cart: VFC = () => {
             {cart?.lines.nodes.map((item, index) => (
               <div
                 key={index}
-                className="grid auto-cols-max grid-flow-row-dense grid-cols-3 grid-rows-2 items-center gap-x-4 md:grid-cols-5 md:grid-rows-1 md:gap-10"
+                className="grid grid-flow-row-dense grid-cols-3 grid-rows-2 items-center gap-[4%] sm:grid-cols-5 sm:grid-rows-1 md:gap-10"
               >
-                <div className="col-span-1 row-span-2 md:col-span-1 md:row-span-1">
+                <div className="col-span-1 row-span-2 sm:col-span-1 sm:row-span-1">
                   <img
                     src={
                       item.merchandise.product.featuredImage
@@ -75,7 +75,7 @@ const Cart: VFC = () => {
                     className=""
                   />
                 </div>
-                <div className="col-span-2 place-self-start md:col-span-2 md:place-self-center">
+                <div className="col-span-2 self-end sm:col-span-2 sm:self-center">
                   <p>{item.merchandise.product.title}</p>
                   <p className="text-xs text-slate-400">
                     ¥
@@ -85,12 +85,20 @@ const Cart: VFC = () => {
                     )}
                   </p>
                 </div>
-                <div className="flex items-center gap-5 justify-self-center border md:col-end-5">
-                  <button className="p-3 md:py-5">-</button>
-                  <p>{item.quantity}</p>
-                  <button className="p-3 md:py-5">+</button>
+                <div className="self-start sm:col-end-5 sm:self-center">
+                  <div className="flex w-[100px] items-center border">
+                    <button className="p-3 sm:py-5">
+                      -
+                    </button>
+                    <p className="w-8 text-center">
+                      {item.quantity}
+                    </p>
+                    <button className="p-3 sm:py-5">
+                      +
+                    </button>
+                  </div>
                 </div>
-                <p className="justify-self-end md:col-end-6">
+                <p className="self-start py-3 sm:col-end-6 sm:self-center sm:justify-self-end">
                   ¥
                   {price(
                     item.estimatedCost.totalAmount.amount,
