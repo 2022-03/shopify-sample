@@ -6,7 +6,8 @@
     ".prettierrc.js",
     "cspell.json",
     "tailwind.config.js",
-    "app/styles/tailwind.css"
+    "app/styles/tailwind.css",
+    "app/graphql/shopify/generated.ts"
   ],
   "dictionaryDefinitions": [],
   "dictionaries": [],

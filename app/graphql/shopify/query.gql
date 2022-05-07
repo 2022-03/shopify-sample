@@ -53,6 +53,7 @@ query Cart($id: ID!, $first: Int) {
     }
     lines(first: $first) {
       nodes {
+        id
         quantity
         estimatedCost {
           totalAmount {
@@ -108,6 +109,17 @@ query CartQuantity($id: ID!, $first: Int) {
       nodes {
         quantity
       }
+    }
+  }
+}
+
+mutation CartLinesUpdate(
+  $cartId: ID!
+  $lines: [CartLineUpdateInput!]!
+) {
+  cartLinesUpdate(cartId: $cartId, lines: $lines) {
+    cart {
+      id
     }
   }
 }

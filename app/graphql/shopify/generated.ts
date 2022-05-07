@@ -1784,7 +1784,7 @@ export type Country = {
 };
 
 /**
- * The code designating a country, which generally follows ISO 3166-1 alpha-2 guidelines.
+ * The code designating a country/region, which generally follows ISO 3166-1 alpha-2 guidelines.
  * If a territory doesn't have a country code value in the `CountryCode` enum, it might be considered a subdivision
  * of another country. For example, the territories associated with Spain are represented by the country code `ES`,
  * and the territories associated with the United States of America are represented by the country code `US`.
@@ -3611,7 +3611,7 @@ export type Language = {
   name: Scalars['String'];
 };
 
-/** ISO 369 language codes supported by Shopify. */
+/** ISO 639-1 language codes supported by Shopify. */
 export enum LanguageCode {
   /** Afrikaans. */
   Af = 'AF',
@@ -6899,7 +6899,7 @@ export type CartQueryVariables = Exact<{
 }>;
 
 
-export type CartQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', estimatedCost: { __typename?: 'CartEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, lines: { __typename?: 'CartLineConnection', nodes: Array<{ __typename?: 'CartLine', quantity: number, estimatedCost: { __typename?: 'CartLineEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, merchandise: { __typename?: 'ProductVariant', product: { __typename?: 'Product', title: string, featuredImage?: { __typename?: 'Image', url: any } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', priceV2: { __typename?: 'MoneyV2', amount: any } } }> } } } }> } } | null };
+export type CartQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', estimatedCost: { __typename?: 'CartEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, lines: { __typename?: 'CartLineConnection', nodes: Array<{ __typename?: 'CartLine', id: string, quantity: number, estimatedCost: { __typename?: 'CartLineEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, merchandise: { __typename?: 'ProductVariant', product: { __typename?: 'Product', title: string, featuredImage?: { __typename?: 'Image', url: any } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', priceV2: { __typename?: 'MoneyV2', amount: any } } }> } } } }> } } | null };
 
 export type CartCreateMutationVariables = Exact<{
   input?: InputMaybe<CartInput>;
@@ -6923,6 +6923,14 @@ export type CartQuantityQueryVariables = Exact<{
 
 
 export type CartQuantityQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', lines: { __typename?: 'CartLineConnection', nodes: Array<{ __typename?: 'CartLine', quantity: number }> } } | null };
+
+export type CartLinesUpdateMutationVariables = Exact<{
+  cartId: Scalars['ID'];
+  lines: Array<CartLineUpdateInput> | CartLineUpdateInput;
+}>;
+
+
+export type CartLinesUpdateMutation = { __typename?: 'Mutation', cartLinesUpdate?: { __typename?: 'CartLinesUpdatePayload', cart?: { __typename?: 'Cart', id: string } | null } | null };
 
 
 export const ProductsDocument = gql`
@@ -6983,6 +6991,7 @@ export const CartDocument = gql`
     }
     lines(first: $first) {
       nodes {
+        id
         quantity
         estimatedCost {
           totalAmount {
@@ -7042,6 +7051,15 @@ export const CartQuantityDocument = gql`
   }
 }
     `;
+export const CartLinesUpdateDocument = gql`
+    mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  cartLinesUpdate(cartId: $cartId, lines: $lines) {
+    cart {
+      id
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -7067,6 +7085,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     CartQuantity(variables: CartQuantityQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CartQuantityQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<CartQuantityQuery>(CartQuantityDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CartQuantity', 'query');
+    },
+    CartLinesUpdate(variables: CartLinesUpdateMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CartLinesUpdateMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CartLinesUpdateMutation>(CartLinesUpdateDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CartLinesUpdate', 'mutation');
     }
   };
 }
