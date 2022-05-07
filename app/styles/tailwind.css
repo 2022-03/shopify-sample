@@ -604,10 +604,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 1.25rem;
 }
 
-.mr-3 {
-  margin-right: 0.75rem;
-}
-
 .mt-20 {
   margin-top: 5rem;
 }
@@ -622,6 +618,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-20 {
   margin-bottom: 5rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
 }
 
 .inline-block {
@@ -777,12 +777,26 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 0.25rem;
 }
 
+.gap-8 {
+  gap: 2rem;
+}
+
 .gap-\[4\%\] {
   gap: 4%;
 }
 
-.gap-8 {
-  gap: 2rem;
+.gap-x-\[2\%\] {
+  -moz-column-gap: 2%;
+       column-gap: 2%;
+}
+
+.gap-y-\[4\%\] {
+  row-gap: 4%;
+}
+
+.gap-x-\[4\%\] {
+  -moz-column-gap: 4%;
+       column-gap: 4%;
 }
 
 .self-start {

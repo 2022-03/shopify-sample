@@ -101,14 +101,10 @@ const Cart: VFC = () => {
     cart?.lines.nodes,
   );
   const transition = useTransition();
-
-  console.log(transition.state);
+  const busy = transition.submission;
 
   return (
-    <Layout
-      quantity={allQuantity}
-      condition={transition.state}
-    >
+    <Layout quantity={allQuantity} condition={busy}>
       <div className="mx-auto mt-10 max-w-[1040px] px-5">
         <div className="flex justify-between">
           <h1>ショッピングカート</h1>
@@ -136,7 +132,8 @@ const Cart: VFC = () => {
                   {price(
                     item.merchandise.product.variants
                       .edges[0].node.priceV2.amount,
-                  )}
+                  )}{" "}
+                  +tax
                 </p>
               </div>
               <div className="self-start sm:col-end-5 sm:self-center">
@@ -216,6 +213,7 @@ const Cart: VFC = () => {
                       item.quantity,
                   ),
                 )}
+                <span className="ml-1 text-xs">+tax</span>
               </p>
             </div>
           ))}

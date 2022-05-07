@@ -12,7 +12,7 @@ import { Header } from "./Header";
 type PROPS = {
   children: ReactNode;
   quantity: number | undefined;
-  condition?: "idle" | "submitting" | "loading";
+  condition?: any;
 };
 
 // ここまで

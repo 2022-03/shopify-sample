@@ -45,7 +45,8 @@ const menuItems = [
 
 type PROPS = {
   quantity: number | undefined;
-  condition?: "idle" | "submitting" | "loading";
+  // condition?: "idle" | "submitting" | "loading";
+  condition?: any;
 };
 
 export const Header: VFC<PROPS> = memo(
@@ -87,13 +88,12 @@ export const Header: VFC<PROPS> = memo(
               >
                 <ImCart className="text-xl" />
                 <p className="w-5 text-center text-xl">
-                  {/* {!quantity ? 0 : quantity} */}
                   {!quantity ? (
                     0
-                  ) : condition === "idle" ? (
-                    quantity
-                  ) : (
+                  ) : condition ? (
                     <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" />
+                  ) : (
+                    quantity
                   )}
                 </p>
               </Link>
