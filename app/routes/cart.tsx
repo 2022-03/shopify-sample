@@ -105,12 +105,12 @@ const Cart: VFC = () => {
 
   return (
     <Layout quantity={allQuantity} condition={busy}>
-      <div className="mx-auto mt-10 max-w-[1040px] px-5">
+      <div className="mx-auto mt-5 mb-16 max-w-[1040px] px-5 sm:mb-20 sm:mt-10">
         <div className="flex justify-between">
           <h1>ショッピングカート</h1>
           <Link to={`/products`}>買い物を続ける</Link>
         </div>
-        <div className="mx-auto mt-8 mb-20 flex max-w-[840px] flex-col gap-5">
+        <div className="mx-auto mt-8 flex max-w-[800px] flex-col gap-5 border-b border-slate-300 pb-4 sm:pb-2">
           {cartState?.map((item, index) => (
             <div
               key={index}
@@ -137,7 +137,7 @@ const Cart: VFC = () => {
                 </p>
               </div>
               <div className="self-start sm:col-end-5 sm:self-center">
-                <div className="flex w-[100px] items-center border">
+                <div className="flex w-[100px] items-center border border-slate-300">
                   <Form method="post">
                     <input
                       type="hidden"
@@ -217,6 +217,14 @@ const Cart: VFC = () => {
               </p>
             </div>
           ))}
+        </div>
+        <div className="mx-auto mt-2 flex max-w-[800px] items-center justify-center gap-5 sm:items-end sm:justify-end sm:gap-10">
+          <p className="text-base sm:text-sm">
+            合計金額(税込)
+          </p>
+          <p className="text-base sm:text-xl">
+            ¥{price(cart?.estimatedCost.totalAmount.amount)}
+          </p>
         </div>
       </div>
     </Layout>

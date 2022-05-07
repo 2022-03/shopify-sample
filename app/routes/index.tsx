@@ -1,9 +1,5 @@
 import type { LoaderFunction } from "@remix-run/cloudflare";
-import {
-  Link,
-  useLoaderData,
-  useTransition,
-} from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { VFC } from "react";
 import { Layout } from "~/components/Layout";
 import type {
@@ -63,13 +59,9 @@ export const loader: LoaderFunction = async ({
 const Index: VFC = () => {
   const { products } = useLoaderData() as ProductsQuery;
   const { quantity } = useLoaderData();
-  const transition = useTransition();
 
   return (
-    <Layout
-      quantity={quantity}
-      condition={transition.submission}
-    >
+    <Layout quantity={quantity}>
       <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:grid-cols-4 md:gap-7 md:px-5">
         {products.nodes.map((product) => (
           <Link
