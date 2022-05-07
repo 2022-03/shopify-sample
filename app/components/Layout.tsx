@@ -12,6 +12,7 @@ import { Header } from "./Header";
 type PROPS = {
   children: ReactNode;
   quantity: number | undefined;
+  condition?: "idle" | "submitting" | "loading";
 };
 
 // ここまで
@@ -21,10 +22,10 @@ type PROPS = {
 // ここから
 
 export const Layout: VFC<PROPS> = memo(
-  ({ children, quantity }) => {
+  ({ children, quantity, condition }) => {
     return (
       <div className="flex min-h-screen flex-col">
-        <Header quantity={quantity} />
+        <Header quantity={quantity} condition={condition} />
         <div className="grow pt-20">{children}</div>
         <Footer />
       </div>

@@ -7,6 +7,7 @@ import {
   Form,
   Link,
   useLoaderData,
+  useTransition,
 } from "@remix-run/react";
 import type { VFC } from "react";
 import { useState } from "react";
@@ -99,9 +100,15 @@ const Cart: VFC = () => {
   const [cartState, setCartState] = useState(
     cart?.lines.nodes,
   );
+  const transition = useTransition();
+
+  console.log(transition.state);
 
   return (
-    <Layout quantity={allQuantity}>
+    <Layout
+      quantity={allQuantity}
+      condition={transition.state}
+    >
       <div className="mx-auto mt-10 max-w-[1040px] px-5">
         <div className="flex justify-between">
           <h1>ショッピングカート</h1>
