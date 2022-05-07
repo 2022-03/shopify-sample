@@ -98,7 +98,7 @@ export const action: ActionFunction = async ({
       },
     });
   } else {
-    const { data } = await shopifyResolver(
+    await shopifyResolver(
       CartLinesAddDocument.loc?.source.body,
       {
         lines: {
@@ -107,8 +107,6 @@ export const action: ActionFunction = async ({
         cartId: cookie.cartId,
       },
     );
-
-    console.log(data);
 
     return redirect(`/cart`);
   }

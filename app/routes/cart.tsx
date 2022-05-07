@@ -11,6 +11,7 @@ import {
 } from "@remix-run/react";
 import type { VFC } from "react";
 import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Layout } from "~/components/Layout";
 import type { CartQuery } from "~/graphql/shopify/generated";
 import {
@@ -218,13 +219,41 @@ const Cart: VFC = () => {
             </div>
           ))}
         </div>
-        <div className="mx-auto mt-2 flex max-w-[800px] items-center justify-center gap-5 sm:items-end sm:justify-end sm:gap-10">
+        <div className="mx-auto mt-2 mb-5 flex max-w-[800px] items-center justify-center gap-5 sm:items-end sm:justify-end sm:gap-10">
           <p className="text-base sm:text-sm">
             合計金額(税込)
           </p>
-          <p className="text-base sm:text-xl">
-            ¥{price(cart?.estimatedCost.totalAmount.amount)}
-          </p>
+          {/* <p className="text-base sm:text-xl">
+            {busy ? (
+              <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" />
+            ) : (
+              `¥${price(
+                cart?.estimatedCost.totalAmount.amount,
+              )}`
+            )}
+          </p> */}
+          <div className="relative max-w-[100px] text-base sm:text-xl">
+            <p className={busy && "text-transparent"}>
+              ¥
+              {price(
+                cart?.estimatedCost.totalAmount.amount,
+              )}
+            </p>
+            {busy && (
+              <AiOutlineLoading3Quarters className="absolute inset-0 m-auto h-5 w-5 animate-spin" />
+            )}
+          </div>
+        </div>
+        <div className="mx-auto max-w-[800px] sm:flex sm:justify-end">
+          <div>
+            <a
+              href={cart?.checkoutUrl}
+              className="block w-full border border-slate-800 py-5 text-center transition-all hover:border-transparent hover:bg-slate-800
+            hover:text-white sm:inline-block sm:px-10"
+            >
+              ご購入手続きへ
+            </a>
+          </div>
         </div>
       </div>
     </Layout>
