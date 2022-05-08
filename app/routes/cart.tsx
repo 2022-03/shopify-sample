@@ -10,7 +10,7 @@ import {
   useTransition,
 } from "@remix-run/react";
 import type { VFC } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Layout } from "~/components/Layout";
 import type { CartQuery } from "~/graphql/shopify/generated";
@@ -103,6 +103,13 @@ const Cart: VFC = () => {
   );
   const transition = useTransition();
   const busy = transition.submission;
+
+  useEffect(() => {
+    setCartState(
+      cartState?.filter((q) => q.quantity !== 0),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busy]);
 
   return (
     <Layout quantity={allQuantity} condition={busy}>
@@ -223,15 +230,6 @@ const Cart: VFC = () => {
           <p className="text-base sm:text-sm">
             合計金額(税込)
           </p>
-          {/* <p className="text-base sm:text-xl">
-            {busy ? (
-              <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" />
-            ) : (
-              `¥${price(
-                cart?.estimatedCost.totalAmount.amount,
-              )}`
-            )}
-          </p> */}
           <div className="relative max-w-[100px] text-base sm:text-xl">
             <p className={busy && "text-transparent"}>
               ¥
