@@ -132,16 +132,15 @@ const Cart: VFC = () => {
             >
               <Link
                 to={`/product/${item.merchandise.product.handle}`}
+                className="col-span-1 row-span-2 sm:col-span-1 sm:row-span-1"
               >
-                <div className="col-span-1 row-span-2 sm:col-span-1 sm:row-span-1">
-                  <img
-                    src={
-                      item.merchandise.product.featuredImage
-                        ?.url
-                    }
-                    alt=""
-                  />
-                </div>
+                <img
+                  src={
+                    item.merchandise.product.featuredImage
+                      ?.url
+                  }
+                  alt=""
+                />
               </Link>
               <div className="col-span-2 self-end sm:col-span-2 sm:self-center">
                 <Link
