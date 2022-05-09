@@ -103,6 +103,8 @@ const Cart: VFC = () => {
   );
   const transition = useTransition();
   const busy = transition.submission;
+  const isLoading =
+    !busy && transition.state === "loading" ? true : false;
 
   useEffect(() => {
     setCartState(
@@ -112,7 +114,11 @@ const Cart: VFC = () => {
   }, [busy]);
 
   return (
-    <Layout quantity={allQuantity} condition={busy}>
+    <Layout
+      quantity={allQuantity}
+      busy={busy}
+      isLoading={isLoading}
+    >
       <div className="mx-auto mt-5 mb-16 max-w-[1040px] px-5 sm:mb-20 sm:mt-10">
         <div className="flex justify-between">
           <h1>ショッピングカート</h1>
@@ -124,17 +130,25 @@ const Cart: VFC = () => {
               key={index}
               className="grid grid-flow-row-dense grid-cols-3 grid-rows-2 items-center gap-[4%] sm:grid-cols-5 sm:grid-rows-1 md:gap-10"
             >
-              <div className="col-span-1 row-span-2 sm:col-span-1 sm:row-span-1">
-                <img
-                  src={
-                    item.merchandise.product.featuredImage
-                      ?.url
-                  }
-                  alt=""
-                />
-              </div>
+              <Link
+                to={`/product/${item.merchandise.product.handle}`}
+              >
+                <div className="col-span-1 row-span-2 sm:col-span-1 sm:row-span-1">
+                  <img
+                    src={
+                      item.merchandise.product.featuredImage
+                        ?.url
+                    }
+                    alt=""
+                  />
+                </div>
+              </Link>
               <div className="col-span-2 self-end sm:col-span-2 sm:self-center">
-                <p>{item.merchandise.product.title}</p>
+                <Link
+                  to={`/product/${item.merchandise.product.handle}`}
+                >
+                  {item.merchandise.product.title}
+                </Link>
                 <p className="text-xs text-slate-400">
                   ¥
                   {price(

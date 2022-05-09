@@ -6899,7 +6899,7 @@ export type CartQueryVariables = Exact<{
 }>;
 
 
-export type CartQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', checkoutUrl: any, estimatedCost: { __typename?: 'CartEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, lines: { __typename?: 'CartLineConnection', nodes: Array<{ __typename?: 'CartLine', id: string, quantity: number, estimatedCost: { __typename?: 'CartLineEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, merchandise: { __typename?: 'ProductVariant', product: { __typename?: 'Product', title: string, featuredImage?: { __typename?: 'Image', url: any } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', priceV2: { __typename?: 'MoneyV2', amount: any } } }> } } } }> } } | null };
+export type CartQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', checkoutUrl: any, estimatedCost: { __typename?: 'CartEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, lines: { __typename?: 'CartLineConnection', nodes: Array<{ __typename?: 'CartLine', id: string, quantity: number, estimatedCost: { __typename?: 'CartLineEstimatedCost', totalAmount: { __typename?: 'MoneyV2', amount: any } }, merchandise: { __typename?: 'ProductVariant', product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', url: any } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', priceV2: { __typename?: 'MoneyV2', amount: any } } }> } } } }> } } | null };
 
 export type CartCreateMutationVariables = Exact<{
   input?: InputMaybe<CartInput>;
@@ -7001,6 +7001,7 @@ export const CartDocument = gql`
         merchandise {
           ... on ProductVariant {
             product {
+              handle
               title
               featuredImage {
                 url

@@ -1,5 +1,6 @@
 import type { ReactNode, VFC } from "react";
 import { memo } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -12,7 +13,8 @@ import { Header } from "./Header";
 type PROPS = {
   children: ReactNode;
   quantity: number | undefined;
-  condition?: any;
+  busy?: any;
+  isLoading: boolean;
 };
 
 // ここまで
@@ -22,13 +24,20 @@ type PROPS = {
 // ここから
 
 export const Layout: VFC<PROPS> = memo(
-  ({ children, quantity, condition }) => {
+  ({ children, quantity, busy, isLoading }) => {
     return (
-      <div className="flex min-h-screen flex-col">
-        <Header quantity={quantity} condition={condition} />
-        <div className="grow pt-20">{children}</div>
-        <Footer />
-      </div>
+      <>
+        {isLoading && (
+          <div>
+            <AiOutlineLoading3Quarters className="fixed inset-0 m-auto h-10 w-10 animate-spin text-slate-400" />
+          </div>
+        )}
+        <div className="flex min-h-screen flex-col">
+          <Header quantity={quantity} busy={busy} />
+          <div className="grow pt-20">{children}</div>
+          <Footer />
+        </div>
+      </>
     );
   },
 );

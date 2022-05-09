@@ -7,6 +7,7 @@ import {
   Form,
   Link,
   useLoaderData,
+  useTransition,
 } from "@remix-run/react";
 import type { VFC } from "react";
 import { Layout } from "~/components/Layout";
@@ -121,9 +122,15 @@ export const action: ActionFunction = async ({
 const Product: VFC = () => {
   const { product } = useLoaderData() as ProductQuery;
   const { quantity } = useLoaderData();
+  const transition = useTransition();
+  const isLoading = transition.submission
+    ? true
+    : transition.state === "loading"
+    ? true
+    : false;
 
   return (
-    <Layout quantity={quantity}>
+    <Layout quantity={quantity} isLoading={isLoading}>
       <div className="mx-auto max-w-[1040px] px-5 pt-10 pb-20">
         <h1 className="pb-5 md:pb-10">{product?.title}</h1>
         <div className="flex flex-col gap-8 pb-10 md:flex-row">

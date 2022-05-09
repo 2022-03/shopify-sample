@@ -63,6 +63,7 @@ query Cart($id: ID!, $first: Int) {
         merchandise {
           ... on ProductVariant {
             product {
+              handle
               title
               featuredImage {
                 url

@@ -45,12 +45,11 @@ const menuItems = [
 
 type PROPS = {
   quantity: number | undefined;
-  // condition?: "idle" | "submitting" | "loading";
-  condition?: any;
+  busy?: any;
 };
 
 export const Header: VFC<PROPS> = memo(
-  ({ quantity, condition }) => {
+  ({ quantity, busy }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -90,7 +89,7 @@ export const Header: VFC<PROPS> = memo(
                 <p className="w-5 text-center text-xl">
                   {!quantity ? (
                     0
-                  ) : condition ? (
+                  ) : busy ? (
                     <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" />
                   ) : (
                     quantity
