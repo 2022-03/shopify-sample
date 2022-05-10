@@ -6880,10 +6880,11 @@ export enum WeightUnit {
 
 export type ProductsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type ProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', nodes: Array<{ __typename?: 'Product', title: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: any } }, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', url: any }> } }> } };
+export type ProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', cursor: string }>, nodes: Array<{ __typename?: 'Product', title: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: any } }, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', url: any }> } }> } };
 
 export type ProductQueryVariables = Exact<{
   handle: Scalars['String'];
@@ -6934,8 +6935,11 @@ export type CartLinesUpdateMutation = { __typename?: 'Mutation', cartLinesUpdate
 
 
 export const ProductsDocument = gql`
-    query Products($first: Int) {
-  products(first: $first) {
+    query Products($first: Int, $after: String) {
+  products(first: $first, after: $after) {
+    edges {
+      cursor
+    }
     nodes {
       title
       handle

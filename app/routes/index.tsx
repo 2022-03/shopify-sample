@@ -97,7 +97,7 @@ const Index: VFC = () => {
       </div>
       <div className="my-10 text-center md:mb-20">
         <Link to={`/products`} className="capitalize">
-          view more
+          to products page
         </Link>
       </div>
     </Layout>

@@ -639,6 +639,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.5rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
 .block {
   display: block;
 }
@@ -884,6 +892,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 1.25rem;
 }
 
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
 .pt-20 {
   padding-top: 5rem;
 }
@@ -1091,6 +1109,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:mb-20 {
     margin-bottom: 5rem;
+  }
+
+  .md\:mt-7 {
+    margin-top: 1.75rem;
   }
 
   .md\:grid-cols-4 {
