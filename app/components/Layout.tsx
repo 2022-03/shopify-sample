@@ -29,7 +29,7 @@ export const Layout: VFC<PROPS> = memo(
       <>
         {isLoading && (
           <div>
-            <AiOutlineLoading3Quarters className="fixed inset-0 m-auto h-10 w-10 animate-spin text-slate-400" />
+            <AiOutlineLoading3Quarters className="fixed inset-0 z-20 m-auto h-10 w-10 animate-spin text-slate-400" />
           </div>
         )}
         <div className="flex min-h-screen flex-col">

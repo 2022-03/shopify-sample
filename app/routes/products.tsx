@@ -43,7 +43,8 @@ export const loader: LoaderFunction = async ({
   const { products } = data;
 
   if (!cookie.cartId) {
-    return { products };
+    const quantity = 0;
+    return { products, quantity };
   }
 
   const { data: quantityData } = await shopifyResolver(
