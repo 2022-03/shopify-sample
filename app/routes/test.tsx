@@ -13,13 +13,11 @@ import { shopifyResolver } from "~/graphql/shopify/resolver";
 
 export const loader: LoaderFunction = async () => {
   const cachedJson = (await CACHES.get(
-    "cache-key",
+    "products-cache",
     "json",
   )) as ProductsQuery;
 
   if (cachedJson) {
-    console.log(cachedJson);
-
     return { products: cachedJson };
   }
 
@@ -29,9 +27,13 @@ export const loader: LoaderFunction = async () => {
   );
   const { products } = data;
 
-  await CACHES.put("cache-key", JSON.stringify(products), {
-    expirationTtl: 60 * 60,
-  });
+  await CACHES.put(
+    "products-cache",
+    JSON.stringify(products),
+    {
+      expirationTtl: 60 * 10,
+    },
+  );
 
   return { products };
 };
