@@ -96,7 +96,7 @@ const Company: VFC = () => {
             ))}
           </tbody>
         </table>
-        <div className="mb-20 h-[400px] max-w-[600px]">
+        <div className="mb-20 h-[400px] max-w-[600px] grayscale">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.7479446765833!2d139.7432565503818!3d35.658581238724935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b972148d72f%3A0x1312431bf75c7130!2z44CSMTA1LTAwMTEg5p2x5Lqs6YO95riv5Yy66Iqd5YWs5ZyS77yU5LiB55uu77yS4oiS77yY!5e0!3m2!1sja!2sjp!4v1652275432034!5m2!1sja!2sjp"
             title="map"
