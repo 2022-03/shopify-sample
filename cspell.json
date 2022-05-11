@@ -13,6 +13,7 @@
   "dictionaries": [],
   "words": ["LIFF", "mainvisual", "tailwindcss"],
   "ignoreWords": [
+    "valign",
     "amondnet",
     "apollographql",
     "autogen",
