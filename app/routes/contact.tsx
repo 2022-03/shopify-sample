@@ -101,8 +101,9 @@ const Contact: VFC = () => {
   const { quantity } = useLoaderData();
 
   const transition = useTransition();
+  const busy = transition.submission;
   const isLoading =
-    transition.state === "loading" ? true : false;
+    busy || transition.state === "loading" ? true : false;
 
   return (
     <Layout quantity={quantity} isLoading={isLoading}>

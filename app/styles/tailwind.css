@@ -639,16 +639,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.5rem;
 }
 
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.mb-20 {
-  margin-bottom: 5rem;
 }
 
 .block {
@@ -665,10 +665,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .table {
   display: table;
-}
-
-.table-column {
-  display: table-column;
 }
 
 .grid {
@@ -711,20 +707,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 2.5rem;
 }
 
-.h-\[calc\(100vh_-_152px\)\] {
-  height: calc(100vh - 152px);
+.h-\[400px\] {
+  height: 400px;
 }
 
 .h-full {
   height: 100%;
 }
 
-.h-\[400px\] {
-  height: 400px;
-}
-
-.max-h-\[400px\] {
-  max-height: 400px;
+.h-\[calc\(100vh_-_152px\)\] {
+  height: calc(100vh - 152px);
 }
 
 .min-h-screen {
@@ -761,10 +753,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-8 {
   width: 2rem;
-}
-
-.w-\[600px\] {
-  width: 600px;
 }
 
 .max-w-\[1040px\] {
@@ -864,16 +852,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 4%;
 }
 
-.gap-8 {
-  gap: 2rem;
-}
-
-.gap-3 {
-  gap: 0.75rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
+}
+
+.gap-8 {
+  gap: 2rem;
 }
 
 .gap-y-5 {
@@ -930,10 +914,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding: 0.75rem;
 }
 
-.p-5 {
-  padding: 1.25rem;
-}
-
 .px-\[4\%\] {
   padding-left: 4%;
   padding-right: 4%;
@@ -971,6 +951,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 1rem;
 }
 
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
 .pb-\[36px\] {
   padding-bottom: 36px;
 }
@@ -995,16 +979,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-left: 6rem;
 }
 
-.pb-3 {
-  padding-bottom: 0.75rem;
-}
-
 .text-center {
   text-align: center;
-}
-
-.align-top {
-  vertical-align: top;
 }
 
 .text-xl {
@@ -1194,6 +1170,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     margin-right: 0px;
   }
 
+  .md\:mb-10 {
+    margin-bottom: 2.5rem;
+  }
+
   .md\:mb-20 {
     margin-bottom: 5rem;
   }
@@ -1202,28 +1182,8 @@ Ensure the default browser behavior of the `hidden` attribute.
     margin-top: 1.75rem;
   }
 
-  .md\:mb-10 {
-    margin-bottom: 2.5rem;
-  }
-
-  .md\:block {
-    display: block;
-  }
-
-  .md\:inline-block {
-    display: inline-block;
-  }
-
   .md\:flex {
     display: flex;
-  }
-
-  .md\:table {
-    display: table;
-  }
-
-  .md\:table-column {
-    display: table-column;
   }
 
   .md\:table-row {
