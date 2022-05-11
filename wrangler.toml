@@ -7,7 +7,7 @@ route = ""
 workers_dev = true
 
 kv_namespaces = [ 
-  { binding = "CACHES", id = "{CF_KV_ID}" }
+  { binding = "CACHES", id = "c10ed2a6390d446e969bf87bbce57489" }
 ]
 
 [site]
