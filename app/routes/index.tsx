@@ -6,15 +6,10 @@ import {
 } from "@remix-run/react";
 import type { VFC } from "react";
 import { Layout } from "~/components/Layout";
-import type {
-  CartQuantityQuery,
-  ProductsQuery,
-} from "~/graphql/shopify/generated";
-import {
-  CartQuantityDocument,
-  ProductsDocument,
-} from "~/graphql/shopify/generated";
+import type { ProductsQuery } from "~/graphql/shopify/generated";
+import { ProductsDocument } from "~/graphql/shopify/generated";
 import { shopifyResolver } from "~/graphql/shopify/resolver";
+import { cartQuantity } from "~/utils/cartQuantity";
 import { userPrefs } from "~/utils/cookie";
 import { price } from "~/utils/price";
 
@@ -27,31 +22,50 @@ import { price } from "~/utils/price";
 export const loader: LoaderFunction = async ({
   request,
 }) => {
+  // Cookie読み込み
   const cookieHeader = request.headers.get("Cookie");
   const cookie =
     (await userPrefs.parse(cookieHeader)) || {};
 
-  const { data } = await shopifyResolver(
-    ProductsDocument.loc?.source.body,
-    { first: 8 },
-  );
-  const { products } = data;
+  // KV読み込み
+  const cachedJson = (await CACHES.get(
+    "products-cache",
+    "json",
+  )) as ProductsQuery;
 
-  if (!cookie.cartId) {
-    const quantity = 0;
-    return { products, quantity };
+  // KVに商品データがある
+  if (cachedJson) {
+    // Cookieにカート情報がない
+    if (!cookie.cartId) {
+      return { products: cachedJson, quantity: 0 };
+    }
+
+    // Cookieにカート情報がある
+    const { quantity } = await cartQuantity(cookie.cartId);
+    return { products: cachedJson, quantity };
   }
 
-  const { data: quantityData } = await shopifyResolver(
-    CartQuantityDocument.loc?.source.body,
-    { id: cookie.cartId, first: 20 },
+  // KVに商品データがない
+  const { data } = await shopifyResolver(
+    ProductsDocument.loc?.source.body,
+    { first: 50 },
   );
-  const { cart } = quantityData as CartQuantityQuery;
-  const quantity = cart?.lines.nodes.reduce(
-    (sum, i) => sum + i.quantity,
-    0,
+  const { products } = data;
+  await CACHES.put(
+    "products-cache",
+    JSON.stringify(products),
+    {
+      expirationTtl: 60 * 10,
+    },
   );
 
+  // Cookieにカート情報がない
+  if (!cookie.cartId) {
+    return { products, quantity: 0 };
+  }
+
+  // Cookieにカート情報がある
+  const { quantity } = await cartQuantity(cookie.cartId);
   return { products, quantity };
 };
 
@@ -72,7 +86,7 @@ const Index: VFC = () => {
   return (
     <Layout quantity={quantity} isLoading={isLoading}>
       <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:grid-cols-4 md:gap-7 md:px-5">
-        {products.nodes.map((product) => (
+        {products.nodes.slice(0, 8).map((product) => (
           <Link
             to={`product/${product.handle}`}
             key={product.handle}
@@ -88,7 +102,7 @@ const Index: VFC = () => {
               <p>
                 ¥
                 {price(
-                  product.priceRange.maxVariantPrice.amount,
+                  product.variants.nodes[0].priceV2.amount,
                 )}{" "}
                 +tax
               </p>

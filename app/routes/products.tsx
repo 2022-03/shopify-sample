@@ -3,23 +3,17 @@ import type {
   LoaderFunction,
 } from "@remix-run/cloudflare";
 import {
-  Form,
   Link,
-  useActionData,
   useLoaderData,
   useTransition,
 } from "@remix-run/react";
 import type { VFC } from "react";
+import { useState } from "react";
 import { Layout } from "~/components/Layout";
-import type {
-  CartQuantityQuery,
-  ProductsQuery,
-} from "~/graphql/shopify/generated";
-import {
-  CartQuantityDocument,
-  ProductsDocument,
-} from "~/graphql/shopify/generated";
+import type { ProductsQuery } from "~/graphql/shopify/generated";
+import { ProductsDocument } from "~/graphql/shopify/generated";
 import { shopifyResolver } from "~/graphql/shopify/resolver";
+import { cartQuantity } from "~/utils/cartQuantity";
 import { userPrefs } from "~/utils/cookie";
 import { price } from "~/utils/price";
 
@@ -32,31 +26,50 @@ import { price } from "~/utils/price";
 export const loader: LoaderFunction = async ({
   request,
 }) => {
+  // Cookie読み込み
   const cookieHeader = request.headers.get("Cookie");
   const cookie =
     (await userPrefs.parse(cookieHeader)) || {};
 
-  const { data } = await shopifyResolver(
-    ProductsDocument.loc?.source.body,
-    { first: 12 },
-  );
-  const { products } = data;
+  // KV読み込み
+  const cachedJson = (await CACHES.get(
+    "products-cache",
+    "json",
+  )) as ProductsQuery;
 
-  if (!cookie.cartId) {
-    const quantity = 0;
-    return { products, quantity };
+  // KVに商品データがある
+  if (cachedJson) {
+    // Cookieにカート情報がない
+    if (!cookie.cartId) {
+      return { products: cachedJson, quantity: 0 };
+    }
+
+    // Cookieにカート情報がある
+    const { quantity } = await cartQuantity(cookie.cartId);
+    return { products: cachedJson, quantity };
   }
 
-  const { data: quantityData } = await shopifyResolver(
-    CartQuantityDocument.loc?.source.body,
-    { id: cookie.cartId, first: 20 },
+  // KVに商品データがない
+  const { data } = await shopifyResolver(
+    ProductsDocument.loc?.source.body,
+    { first: 50 },
   );
-  const { cart } = quantityData as CartQuantityQuery;
-  const quantity = cart?.lines.nodes.reduce(
-    (sum, i) => sum + i.quantity,
-    0,
+  const { products } = data;
+  await CACHES.put(
+    "products-cache",
+    JSON.stringify(products),
+    {
+      expirationTtl: 60 * 10,
+    },
   );
 
+  // Cookieにカート情報がない
+  if (!cookie.cartId) {
+    return { products, quantity: 0 };
+  }
+
+  // Cookieにカート情報がある
+  const { quantity } = await cartQuantity(cookie.cartId);
   return { products, quantity };
 };
 
@@ -91,7 +104,7 @@ export const action: ActionFunction = async ({
 const Index: VFC = () => {
   const { products } = useLoaderData() as ProductsQuery;
   const { quantity } = useLoaderData();
-  const moreProducts = useActionData() as ProductsQuery;
+  const [isMore, setIsMore] = useState(false);
 
   const transition = useTransition();
   const busy = transition.submission;
@@ -104,7 +117,7 @@ const Index: VFC = () => {
         <h1 className="capitalize">products</h1>
       </div>
       <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:grid-cols-4 md:gap-7 md:px-5">
-        {products.nodes.map((product) => (
+        {products.nodes.slice(0, 12).map((product) => (
           <Link
             to={`/product/${product.handle}`}
             key={product.handle}
@@ -120,7 +133,7 @@ const Index: VFC = () => {
               <p>
                 ¥
                 {price(
-                  product.priceRange.maxVariantPrice.amount,
+                  product.variants.nodes[0].priceV2.amount,
                 )}{" "}
                 +tax
               </p>
@@ -128,51 +141,45 @@ const Index: VFC = () => {
           </Link>
         ))}
       </div>
-      {!moreProducts ? (
-        <Form
-          method="post"
-          className="relative pb-20 pt-10 text-center"
-        >
-          <input
-            type="hidden"
-            name="start"
-            value={
-              products.edges[products.edges.length - 1]
-                .cursor
-            }
-          />
-          <button type="submit" className="capitalize">
-            read more
-          </button>
-        </Form>
-      ) : (
-        <div className="mx-auto mt-4 mb-20 grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:mt-7 md:grid-cols-4 md:gap-7 md:px-5">
-          {moreProducts.products.nodes.map((product) => (
-            <Link
-              to={`/product/${product.handle}`}
-              key={product.handle}
+      <div>
+        {isMore ? (
+          <div className="mx-auto mt-4 mb-20 grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:mt-7 md:grid-cols-4 md:gap-7 md:px-5">
+            {products.nodes.slice(12).map((product) => (
+              <Link
+                to={`/product/${product.handle}`}
+                key={product.handle}
+              >
+                <div>
+                  <img
+                    src={product.images.nodes[0].url}
+                    alt={product.handle}
+                  />
+                </div>
+                <div>
+                  <p>{product.title}</p>
+                  <p>
+                    ¥
+                    {price(
+                      product.variants.nodes[0].priceV2
+                        .amount,
+                    )}{" "}
+                    +tax
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="pb-20 pt-10 text-center">
+            <button
+              className="capitalize"
+              onClick={() => setIsMore(!isMore)}
             >
-              <div>
-                <img
-                  src={product.images.nodes[0].url}
-                  alt={product.handle}
-                />
-              </div>
-              <div>
-                <p>{product.title}</p>
-                <p>
-                  ¥
-                  {price(
-                    product.priceRange.maxVariantPrice
-                      .amount,
-                  )}{" "}
-                  +tax
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              read more
+            </button>
+          </div>
+        )}
+      </div>
     </Layout>
   );
 };

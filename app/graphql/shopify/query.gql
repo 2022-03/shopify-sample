@@ -1,48 +1,26 @@
-query Products($first: Int, $after: String) {
-  products(first: $first, after: $after) {
-    edges {
-      cursor
-    }
+query Products($first: Int) {
+  products(first: $first) {
     nodes {
       title
       handle
-      priceRange {
-        maxVariantPrice {
-          amount
-        }
-      }
+      description
       images(first: $first) {
         nodes {
           url
         }
       }
-    }
-  }
-}
-
-query Product($handle: String!, $first: Int!) {
-  product(handle: $handle) {
-    title
-    handle
-    media(first: $first) {
-      nodes {
-        previewImage {
-          url(transform: { maxWidth: 400, maxHeight: 400 })
+      variants(first: $first) {
+        nodes {
+          id
+          priceV2 {
+            amount
+          }
         }
       }
-    }
-    description
-    variants(first: $first) {
-      nodes {
-        id
-        priceV2 {
-          amount
-        }
+      options {
+        name
+        values
       }
-    }
-    options {
-      name
-      values
     }
   }
 }

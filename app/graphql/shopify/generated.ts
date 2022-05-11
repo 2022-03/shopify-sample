@@ -6880,19 +6880,10 @@ export enum WeightUnit {
 
 export type ProductsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
-  after?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type ProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', cursor: string }>, nodes: Array<{ __typename?: 'Product', title: string, handle: string, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: any } }, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', url: any }> } }> } };
-
-export type ProductQueryVariables = Exact<{
-  handle: Scalars['String'];
-  first: Scalars['Int'];
-}>;
-
-
-export type ProductQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', title: string, handle: string, description: string, media: { __typename?: 'MediaConnection', nodes: Array<{ __typename?: 'ExternalVideo', previewImage?: { __typename?: 'Image', url: any } | null } | { __typename?: 'MediaImage', previewImage?: { __typename?: 'Image', url: any } | null } | { __typename?: 'Model3d', previewImage?: { __typename?: 'Image', url: any } | null } | { __typename?: 'Video', previewImage?: { __typename?: 'Image', url: any } | null }> }, variants: { __typename?: 'ProductVariantConnection', nodes: Array<{ __typename?: 'ProductVariant', id: string, priceV2: { __typename?: 'MoneyV2', amount: any } }> }, options: Array<{ __typename?: 'ProductOption', name: string, values: Array<string> }> } | null };
+export type ProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', nodes: Array<{ __typename?: 'Product', title: string, handle: string, description: string, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', url: any }> }, variants: { __typename?: 'ProductVariantConnection', nodes: Array<{ __typename?: 'ProductVariant', id: string, priceV2: { __typename?: 'MoneyV2', amount: any } }> }, options: Array<{ __typename?: 'ProductOption', name: string, values: Array<string> }> }> } };
 
 export type CartQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -6935,52 +6926,29 @@ export type CartLinesUpdateMutation = { __typename?: 'Mutation', cartLinesUpdate
 
 
 export const ProductsDocument = gql`
-    query Products($first: Int, $after: String) {
-  products(first: $first, after: $after) {
-    edges {
-      cursor
-    }
+    query Products($first: Int) {
+  products(first: $first) {
     nodes {
       title
       handle
-      priceRange {
-        maxVariantPrice {
-          amount
-        }
-      }
+      description
       images(first: $first) {
         nodes {
           url
         }
       }
-    }
-  }
-}
-    `;
-export const ProductDocument = gql`
-    query Product($handle: String!, $first: Int!) {
-  product(handle: $handle) {
-    title
-    handle
-    media(first: $first) {
-      nodes {
-        previewImage {
-          url(transform: {maxWidth: 400, maxHeight: 400})
+      variants(first: $first) {
+        nodes {
+          id
+          priceV2 {
+            amount
+          }
         }
       }
-    }
-    description
-    variants(first: $first) {
-      nodes {
-        id
-        priceV2 {
-          amount
-        }
+      options {
+        name
+        values
       }
-    }
-    options {
-      name
-      values
     }
   }
 }
@@ -7076,9 +7044,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     Products(variables?: ProductsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ProductsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ProductsQuery>(ProductsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Products', 'query');
-    },
-    Product(variables: ProductQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ProductQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ProductQuery>(ProductDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Product', 'query');
     },
     Cart(variables: CartQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CartQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<CartQuery>(CartDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Cart', 'query');
