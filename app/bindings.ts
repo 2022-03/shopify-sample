@@ -7,4 +7,5 @@ declare global {
   const USER_ID: string;
   const TEMPLATE_ID: string;
   const ACCESS_TOKEN: string;
+  const CACHES: KVNamespace;
 }

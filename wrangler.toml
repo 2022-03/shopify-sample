@@ -6,6 +6,10 @@ account_id = ""
 route = ""
 workers_dev = true
 
+kv_namespaces = [ 
+  { binding = "CACHES", id = "{CF_KV_ID}" }
+]
+
 [site]
 bucket = "./public"
 entry-point = "."
