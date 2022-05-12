@@ -1,36 +1,17 @@
-import type {
-  LinksFunction,
-  LoaderFunction,
-} from "@remix-run/cloudflare";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import {
   Link,
   useLoaderData,
   useTransition,
 } from "@remix-run/react";
 import type { VFC } from "react";
-import type { Settings } from "react-slick";
-import Slider from "react-slick";
-import slickTheme from "slick-carousel/slick/slick-theme.css";
-import slick from "slick-carousel/slick/slick.css";
+import { Layout } from "~/components/Layout";
 import type { ProductsQuery } from "~/graphql/shopify/generated";
 import { ProductsDocument } from "~/graphql/shopify/generated";
 import { shopifyResolver } from "~/graphql/shopify/resolver";
 import { cartQuantity } from "~/utils/cartQuantity";
 import { userPrefs } from "~/utils/cookie";
 import { price } from "~/utils/price";
-
-// ここまで
-//
-//
-//
-// ここから
-
-export const links: LinksFunction = () => {
-  return [
-    { rel: "stylesheet", href: slick },
-    { rel: "stylesheet", href: slickTheme },
-  ];
-};
 
 // ここまで
 //
@@ -52,12 +33,6 @@ export const loader: LoaderFunction = async ({
     "json",
   )) as ProductsQuery;
 
-  // ここまで
-  //
-  //
-  //
-  // ここから
-
   // KVに商品データがある
   if (cachedJson) {
     // Cookieにカート情報がない
@@ -69,12 +44,6 @@ export const loader: LoaderFunction = async ({
     const { quantity } = await cartQuantity(cookie.cartId);
     return { products: cachedJson, quantity };
   }
-
-  // ここまで
-  //
-  //
-  //
-  // ここから
 
   // KVに商品データがない
   const { data } = await shopifyResolver(
@@ -114,29 +83,8 @@ const Index: VFC = () => {
   const isLoading =
     !busy && transition.state === "loading" ? true : false;
 
-  const settings: Settings = {
-    infinite: true,
-    speed: 2000,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    pauseOnHover: false,
-  };
-
   return (
-    <>
-      <ul className="overflow-hidden">
-        <Slider {...settings}>
-          {products.nodes.slice(1, 5).map((image) => (
-            <li key={image.handle}>
-              <img
-                src={image.images.nodes[0].url}
-                alt=""
-                className="h-screen w-full object-cover"
-              />
-            </li>
-          ))}
-        </Slider>
-      </ul>
+    <Layout quantity={quantity} isLoading={isLoading}>
       <div className="mx-auto grid max-w-[1040px] grid-cols-2 gap-4 px-[4%] md:grid-cols-4 md:gap-7 md:px-5">
         {products.nodes.slice(0, 8).map((product) => (
           <Link
@@ -167,7 +115,7 @@ const Index: VFC = () => {
           to products page
         </Link>
       </div>
-    </>
+    </Layout>
   );
 };
 export default Index;

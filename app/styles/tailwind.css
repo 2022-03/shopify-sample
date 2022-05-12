@@ -659,10 +659,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: inline-block;
 }
 
-.inline {
-  display: inline;
-}
-
 .flex {
   display: flex;
 }
@@ -763,6 +759,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 2rem;
 }
 
+.w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .max-w-\[1040px\] {
   max-width: 1040px;
 }
@@ -777,6 +779,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-\[100px\] {
   max-width: 100px;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-w-fit {
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .grow {
@@ -886,6 +898,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   align-self: flex-end;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 .border {
   border-width: 1px;
 }
@@ -916,6 +932,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-\[rgba\(0\2c 0\2c 0\2c 0\.8\)\] {
   background-color: rgba(0,0,0,0.8);
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .p-3 {
