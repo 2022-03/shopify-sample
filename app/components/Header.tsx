@@ -87,9 +87,7 @@ export const Header: VFC<PROPS> = memo(
               >
                 <ImCart className="text-xl" />
                 <p className="w-5 text-center text-xl">
-                  {!quantity ? (
-                    0
-                  ) : busy ? (
+                  {busy ? (
                     <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" />
                   ) : (
                     quantity
@@ -117,7 +115,7 @@ export const Header: VFC<PROPS> = memo(
               >
                 <div className="mx-auto mt-20 flex max-w-[1040px] flex-col gap-5 px-5 text-center text-xl md:text-left">
                   {menuItems.map((item) => (
-                    <div key={item} className="">
+                    <div key={item}>
                       <Link
                         to={`/${item}`}
                         className="inline-block uppercase text-white"
@@ -126,6 +124,17 @@ export const Header: VFC<PROPS> = memo(
                       </Link>
                     </div>
                   ))}
+                  <div className="">
+                    <Link
+                      to={`/cart`}
+                      className="inline-flex items-center gap-1 text-white"
+                    >
+                      <ImCart className="text-xl" />
+                      <p className="w-5 text-center text-xl">
+                        {quantity}
+                      </p>
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             )}
